@@ -4,10 +4,12 @@ import { Switch, NavLink } from 'react-router-dom';
 
 import Routes from './routes';
 
+import styles from './App.module.scss';
+
 export default props => {
   return (
     <div>
-      <ul>
+      <ul className={styles.Nav}>
         <li>
           <NavLink to="/">Home</NavLink>
         </li>

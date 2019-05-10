@@ -9,14 +9,25 @@ import serialize from 'serialize-javascript';
 
 import Routes from '../src/routes';
 import App from '../src/App';
+import Api from './v1/api';
 
 const PORT = process.env.PORT || 3006;
 const app = express();
 
+const api = new Api();
+
 app.use(express.static('./build'));
+
+app.use('/api', api.createRouter());
+
+app.get('/api/*', (req, res) => {
+  res.status(404).send(`path, ${req.url}, not found`);
+});
+
 
 app.get('/*', (req, res) => {
   const currentRoute = Routes.find(route => matchPath(req.url, route)) || {};
+  console.log("Wrong place?");
   let promise;
 
   if (currentRoute.loadData) {
