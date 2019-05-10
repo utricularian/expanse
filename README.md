@@ -9,6 +9,17 @@ In the project directory, you can run:
 Runs the app in development mode.<br>
 Open [http://localhost:3006](http://localhost:3006) to view it in the browser
 
+### 'scripts/run_db'
+
+Creates a default postgres docker container. If data already exists
+launches the postgres server in a container. If the server is already
+running, leaves a friendly note saying it already did its job.
+
+
+### docker exec -it expanse-db <some command>
+
+Runs a command in the postgres container
+
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.<br>

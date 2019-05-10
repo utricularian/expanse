@@ -1,0 +1,20 @@
+#!/bin/bash
+
+is_running=$(docker ps -f name=expanse-db -f status=running | grep postgres)
+is_shutdown=$(docker ps -f name=expanse-db -f status=exited | grep postgres)
+
+if [[ "${is_running}" != "" ]]; then
+  echo "Postgress is already running in a container"
+elif [[ "${is_shutdown}" != "" ]]; then
+  echo "Postgres already installed, just not running"
+else
+  echo "Creating container and starting postgres"
+
+  mkdir -p ~/data/expanse-db
+
+  docker run -d \
+    --name expanse-db \
+    -v ~/data/expanse-db:/var/lib/postgresql/data \
+    -p 54320:5432 \
+    postgres:11
+fi
