@@ -1,3 +1,4 @@
+import csv from 'fast-csv';
 import PGPromise from 'pg-promise';
 
 const databaseUrl = process.env.DATABASE_URL;
@@ -122,11 +123,35 @@ async function generateHabitablePlanets(db) {
   return db.none(generateHabitablePlanetsSql, [sizeOfGoldilocksZone, startOfGoldilocksZone]);
 }
 
+async function generateRandomSystemObjectTypesTable(db) {
+  const insertSql = 'INSERT INTO "randomSystemObjectTypes" (type, weight) values ($1, $2)';
+
+  const onData = async (data) => {
+    await db.none(insertSql, [data.type, data.weight]);
+  };
+
+  const fileReadingPromise = new Promise((resolve, reject) => {
+    csv.fromPath('./scripts/randomSystemObjectTypes.csv', {headers: ['type', 'weight']})
+      .on('data', onData)
+      .on('end', () => {
+        resolve();
+      })
+      .on('error', (error) => {
+        reject(error);
+      })
+  });
+
+  await fileReadingPromise;
+
+  console.log("Done streaming CSV");
+
+}
+
 async function generateSystemObjects(db) {
   await generateStars(db);
   await generateGates(db);
   await generateHabitablePlanets(db);
-  // await generateRandomSystemObjects(db);
+  await generateRandomSystemObjectTypesTable(db);
 }
 
 async function main() {
