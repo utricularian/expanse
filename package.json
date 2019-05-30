@@ -64,13 +64,14 @@
   },
   "scripts": {
     "dev:build-server": "NODE_ENV=development webpack --config webpack.server.js --mode=development -w",
-    "dev:start": "nodemon ./server-build/index.js",
+    "dev:start": "nodemon ./server-build/server.js",
     "dev": "npm-run-all --parallel build dev:*",
     "migrate": "node-pg-migrate",
     "db:seed": "NODE_ENV=development babel-node scripts/seed_galaxy.js",
+    "db:test:prepare": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test node-pg-migrate up",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test node scripts/test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -101,12 +102,14 @@
     "npm-run-all": "^4.1.5",
     "pg": "^7.11.0",
     "sass-loader": "^7.1.0",
+    "supertest": "^4.0.2",
     "webpack-cli": "^3.3.1",
     "webpack-node-externals": "^1.7.2"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
+      "server/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts"
     ],
     "setupFiles": [
@@ -114,8 +117,8 @@
     ],
     "setupFilesAfterEnv": [],
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+      "<rootDir>/src/**/*_spec.js",
+      "<rootDir>/tests/**/*_spec.js"
     ],
     "testEnvironment": "jest-environment-jsdom-fourteen",
     "transform": {

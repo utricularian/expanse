@@ -11,7 +11,6 @@ import Routes from '../src/routes';
 import App from '../src/App';
 import Api from './v1/api';
 
-const PORT = process.env.PORT || 3006;
 const app = express();
 
 const api = new Api();
@@ -72,7 +71,4 @@ app.get('/*', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`😎 Server is listening on port ${PORT}`);
-});
-
+export default app;
