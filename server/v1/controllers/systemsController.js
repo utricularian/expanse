@@ -1,24 +1,17 @@
+import AbstractController from "./abstractController";
+
 import systemRepository from "../../repositories/systemRepository";
 
 let instance = null;
 
-class SystemsController {
+class SystemsController extends AbstractController {
   constructor() {
     if (!instance) {
-      instance = this;
+      instance = super();
     }
 
     return instance;
   }
-
-  preProcess(request, response) {
-    if (request.get('Content-Type') !== 'application/json') {
-      response.status(415).send('Content-Type must be "application/json"');
-      return false;
-    }
-    response.set('Content-Type', 'application/json');
-    return true;
-  };
 
   async getAllSystems(request, response) {
     if (this.preProcess(request, response)) {
@@ -44,4 +37,4 @@ class SystemsController {
   }
 }
 
-export default new SystemsController;
+export default new SystemsController();

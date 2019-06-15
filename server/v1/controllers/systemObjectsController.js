@@ -1,24 +1,16 @@
+import AbstractController from './abstractController';
 import systemObjectRepository from "../../repositories/systemObjectRepository";
 
 let instance = null;
 
-class SystemsObjectsController  {
+class SystemsObjectsController extends AbstractController {
   constructor() {
     if (!instance) {
-      instance = this;
+      instance = super();
     }
 
     return instance;
   }
-
-  preProcess(request, response) {
-    if (request.get('Content-Type') !== 'application/json') {
-      response.status(415).send('Content-Type must be "application/json"');
-      return false;
-    }
-    response.set('Content-Type', 'application/json');
-    return true;
-  };
 
   async getAllSystemObjectsForSystem(request, response) {
     if (this.preProcess(request, response)) {
