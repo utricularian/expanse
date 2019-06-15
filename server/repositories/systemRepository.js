@@ -19,6 +19,10 @@ class SystemRepository extends AbstractRepository {
     return new System(await this._find(id, new System({})));
   }
 
+  async findAll() {
+    return (await this._findAll(new System({}))).map((data) => new System(data));
+  }
+
   async save(system) {
     await this._save(system, new System({}));
   }

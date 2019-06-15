@@ -16,6 +16,19 @@ class AbstractRepository {
     return results;
   }
 
+  async _findAll(emptyEntity) {
+    const keyMarkers = Object.keys(emptyEntity).map((el) => `"${el}"`);
+
+    const findSql = `
+      SELECT ${keyMarkers.join(', ')}
+      FROM ${this._TABLE_NAME}
+      ORDER BY id
+    `.trim();
+
+    const results = await databaseDriver.db().any(findSql);
+    return results;
+  }
+
   async _save(entity, emptyEntity) {
     const keys = [];
     const values = [];

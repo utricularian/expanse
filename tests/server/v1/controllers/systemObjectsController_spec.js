@@ -3,7 +3,6 @@ import request from 'supertest';
 import { expect } from 'chai';
 
 import app from '../../../../server/app';
-import databaseDriver from '../../../../server/drivers/databaseDriver';
 
 import systemRepository from '../../../../server/repositories/systemRepository';
 import systemObjectRepository from '../../../../server/repositories/systemObjectRepository';
@@ -14,31 +13,6 @@ import SystemObject from "../../../../src/models/systemObject";
 
 
 describe('SystemObjectsController Test', () => {
-  beforeEach(async () => {
-    const db = databaseDriver.db();
-    await db.none(`
-DO
-$func$
-BEGIN
-   -- RAISE NOTICE '%', 
-   EXECUTE
-   (SELECT 'TRUNCATE TABLE ' || string_agg(oid::regclass::text, ', ') || ' CASCADE'
-    FROM   pg_class
-    WHERE  relkind = 'r'  -- only tables
-    AND    relnamespace = 'public'::regnamespace
-    AND    relname != 'pgmigrations'
-   );
-END
-$func$;
-
-    `.trim());
-  });
-
-
-  afterEach(() => {
-
-  });
-
   describe('GET /api/systems/:systemId/system_objects', () => {
     let system, systemObject1, systemObject2;
 
@@ -57,11 +31,18 @@ $func$;
       await systemObjectRepository.save(systemObjectFactory.createSystemObject({system: system2}));
     });
 
+    it('should reject when content-type is not json', async () => {
+      const response = await request(app).get(`/api/systems/${system.id}/system_objects`);
+      expect(response.status).to.equal(415);
+      expect(response.text).to.eql('Content-Type must be "application/json"');
+    });
+
     it('it should return only system objects for the given system', async () => {
       const response = await request(app)
         .get(`/api/systems/${system.id}/system_objects`)
         .set('Content-Type', 'application/json');
       expect(response.status).to.equal(200);
+      expect(response.text).not.to.be.undefined;
       const fromServer = JSON.parse(response.text);
 
       expect(fromServer.data.length).to.equal(2);

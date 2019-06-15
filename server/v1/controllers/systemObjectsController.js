@@ -23,7 +23,6 @@ class SystemsObjectsController  {
   async getAllSystemObjectsForSystem(request, response) {
     if (this.preProcess(request, response)) {
 
-      // console.log(request);
       const systemObjects = await systemObjectRepository.findAllBySystemId(request.params.system_id);
       const dataObjects = systemObjects.map((datum) => {
         return {
