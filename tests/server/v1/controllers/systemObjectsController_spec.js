@@ -1,5 +1,7 @@
 import request from 'supertest';
 
+import { expect } from 'chai';
+
 import app from '../../../../server/app';
 import databaseDriver from '../../../../server/drivers/databaseDriver';
 
@@ -55,16 +57,16 @@ $func$;
       await systemObjectRepository.save(systemObjectFactory.createSystemObject({system: system2}));
     });
 
-    test('it should return only system objects for the given system', async () => {
+    it('it should return only system objects for the given system', async () => {
       const response = await request(app)
         .get(`/api/systems/${system.id}/system_objects`)
         .set('Content-Type', 'application/json');
-      expect(response.status).toBe(200);
+      expect(response.status).to.equal(200);
       const fromServer = JSON.parse(response.text);
 
-      expect(fromServer.data.length).toEqual(2);
-      expect(new SystemObject(fromServer.data[0].attributes)).toEqual(systemObject1);
-      expect(new SystemObject(fromServer.data[1].attributes)).toEqual(systemObject2);
+      expect(fromServer.data.length).to.equal(2);
+      expect(new SystemObject(fromServer.data[0].attributes)).to.eql(systemObject1);
+      expect(new SystemObject(fromServer.data[1].attributes)).to.eql(systemObject2);
     });
   });
 });

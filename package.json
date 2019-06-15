@@ -71,7 +71,11 @@
     "db:test:prepare": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test node-pg-migrate up",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test node scripts/test.js"
+    "test": "yarn run test:server && yarn run test:client",
+    "test:client": "CI=true yarn run test:client:watch",
+    "test:client:watch": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test node scripts/test.js",
+    "test:server": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test NODE_ENV=development mochapack --webpack-config webpack.server.js --recursive tests/server",
+    "test:server:watch": "yarn run test:server --watch"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -94,8 +98,11 @@
     "babel-loader": "^8.0.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react-app": "^8.0.0",
+    "chai": "^4.2.0",
     "css-loader": "^2.1.1",
     "fast-csv": "^2.5.0",
+    "mocha": "^6.1.4",
+    "mochapack": "^1.1.1",
     "node-pg-migrate": "^3.20.0",
     "node-sass": "^4.12.0",
     "nodemon": "^1.19.0",
