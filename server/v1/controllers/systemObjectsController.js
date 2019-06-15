@@ -1,5 +1,6 @@
 import AbstractController from './abstractController';
 import systemObjectRepository from "../../repositories/systemObjectRepository";
+import ApiPayload from "./apiPayload";
 
 let instance = null;
 
@@ -24,55 +25,11 @@ class SystemsObjectsController extends AbstractController {
         }
       });
 
-      const dummyData = {
-        data: dataObjects,
-        // errors: [],
-        meta: {},
-        links: [],
-        jsonapi: {},
-        included: []
-      };
+      const payload = new ApiPayload(dataObjects);
       response
         .status(200)
-        .send(JSON.stringify(dummyData));
+        .send(payload.toJSON());
     }
-  }
-
-  getSystemObject(request, response) {
-    if (this.preProcess(request, response)) {
-      const dummyData = {
-        data: {
-          type: "celestial_bodies",
-          id: request.params['id'],
-          attributes: {
-            name: "Test Planet",
-            baz: [1, 2, 3]
-          },
-          relationships: {
-            system: {
-              links: {
-                self: `/api/celestial_bodies/${request.params['id']}/system`
-              },
-              data: {
-                type: "systems",
-                id: "77"
-              }
-            }
-          },
-          links: [],
-          meta: {}
-        },
-        // errors: [],
-        meta: {},
-        links: [],
-        jsonapi: {},
-        included: []
-      };
-      response
-        .status(200)
-        .send(JSON.stringify(dummyData));
-    }
-
   }
 }
 

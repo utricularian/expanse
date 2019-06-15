@@ -14,7 +14,6 @@ export default class Api {
     router.get('/systems', SystemsController.getAllSystems.bind(SystemsController));
 
     router.get('/systems/:system_id/system_objects', SystemObjectsController.getAllSystemObjectsForSystem.bind(SystemObjectsController));
-    // router.get('/system_objects/:id', SystemObjectsController.getSystemObject.bind(SystemObjectsController));
 
     return router;
   }

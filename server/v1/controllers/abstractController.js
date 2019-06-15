@@ -12,4 +12,6 @@ export default class AbstractController {
     response.set('Content-Type', 'application/json');
     return true;
   };
+
+
 }

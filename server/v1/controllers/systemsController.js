@@ -1,6 +1,7 @@
 import AbstractController from "./abstractController";
 
 import systemRepository from "../../repositories/systemRepository";
+import ApiPayload from "./apiPayload";
 
 let instance = null;
 
@@ -24,15 +25,9 @@ class SystemsController extends AbstractController {
         }
       });
 
-      const payload = {
-        data: data,
-        meta: {},
-        links: [],
-        jsonapi: {},
-        included: []
-      };
+      const payload = new ApiPayload(data);
 
-      response.status(200).send(JSON.stringify(payload));
+      response.status(200).send(payload.toJSON());
     }
   }
 }
