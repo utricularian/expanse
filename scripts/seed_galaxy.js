@@ -56,7 +56,7 @@ async function generateSystems(db) {
   console.log(`Generating ${numberOfSystems} systems`);
 
   const generateSystemsSql = `
-    INSERT INTO "systems" (id, name, "distanceFromGalacticCore", "radiansAroundGalacticCore") 
+    INSERT INTO systems (id, name, distance_from_galactic_core, radians_around_galactic_core) 
     SELECT 
       generate_series(1, $1) as id, 
       md5(random()::text) as name, 
@@ -71,13 +71,13 @@ async function generateSystems(db) {
 
 async function generateStars(db) {
   const generateStarsSql = `    
-    INSERT INTO "systemObjects" (type, name, "systemId", "distanceFromSystemCenter", "radiansFromSystemGate")
+    INSERT INTO system_objects (type, name, system_id, distance_from_system_center, radians_from_system_gate)
     SELECT 
-      'star' as "type", 
-      md5(random()::text) as "name", 
-      id as "systemId",
-      0 as "distanceFromSystemCenter", 
-      0.0 as "radiansFromSystemGate"
+      'star' as type, 
+      md5(random()::text) as name, 
+      id as system_id,
+      0 as distance_from_system_center, 
+      0.0 as radians_from_system_gate
     FROM systems
   `.trim();
 
@@ -89,14 +89,14 @@ async function generateGates(db) {
   const minGateDistance = 4000000;  // four billion km
 
   const generateGatesSql = `
-    INSERT INTO "systemObjects" (type, name, "systemId", "distanceFromSystemCenter", "radiansFromSystemGate")
+    INSERT INTO system_objects (type, name, system_id, distance_from_system_center, radians_from_system_gate)
     SELECT
-      'gate' as "type",
-      concat(name, ' Gate') as "name",
-      "systemId" as "systemId",
-      floor(random() * $1 + $2)::int as "distanceFromSystemCenter",
-      0.0 as "radiansFromSystemGate"
-    FROM "systemObjects"
+      'gate' as type,
+      concat(name, ' Gate') as name,
+      system_id as system_id,
+      floor(random() * $1 + $2)::int as distance_from_system_center,
+      0.0 as radians_from_system_gate
+    FROM system_objects
     WHERE type = 'star'
   `.trim();
 
@@ -109,14 +109,14 @@ async function generateHabitablePlanets(db) {
   const sizeOfGoldilocksZone = endOfGoldilocksZone - startOfGoldilocksZone;
 
   const generateHabitablePlanetsSql = `
-    INSERT INTO "systemObjects" (type, name, "systemId", "distanceFromSystemCenter", "radiansFromSystemGate")
+    INSERT INTO system_objects (type, name, system_id, distance_from_system_center, radians_from_system_gate)
     SELECT
-      'habitable planet' as "type",
-      concat(name, ' Home') as "name",
-      "systemId" as "systemId",
-      floor(random() * $1 + $2)::int as "distanceFromSystemCenter",
-      random() * pi() as "radiansFromSystemGate"
-    FROM "systemObjects"
+      'habitable planet' as type,
+      concat(name, ' Home') as name,
+      system_id as system_id,
+      floor(random() * $1 + $2)::int as distance_from_system_center,
+      random() * pi() as radians_from_system_gate
+    FROM system_objects
     where type = 'star'
   `.trim();
 
@@ -124,7 +124,7 @@ async function generateHabitablePlanets(db) {
 }
 
 async function generateRandomSystemObjectTypesTable(db) {
-  const insertSql = 'INSERT INTO "randomSystemObjectTypes" (type, weight) values ($1, $2)';
+  const insertSql = 'INSERT INTO system_object_types (type, weight) values ($1, $2)';
 
   const onData = async (data) => {
     await db.none(insertSql, [data.type, data.weight]);

@@ -5,7 +5,7 @@ import databaseDriver from "../drivers/databaseDriver";
 let _instance;
 
 class SystemObjectRepository extends AbstractRepository {
-  _TABLE_NAME = '"systemObjects"';
+  _TABLE_NAME = 'system_objects';
 
   constructor() {
     super();
@@ -21,17 +21,17 @@ class SystemObjectRepository extends AbstractRepository {
   }
 
   async findAllBySystemId(systemId) {
-    const keyMarkers = Object.keys(new SystemObject({})).map((el) => `"${el}"`);
+    const keyMarkers = Object.keys(new SystemObject({})).map(this.snakeCase);
 
     const findSql = `
       SELECT ${keyMarkers.join(', ')}
       from ${this._TABLE_NAME}
-      WHERE "systemId" = $1
-      ORDER BY id
+      WHERE system_id = $1
+      ORDER BY radians_from_system_gate ASC, id
     `.trim();
 
     const listOfAttributes = await databaseDriver.db().any(findSql, systemId);
-    return listOfAttributes.map((attr) => new SystemObject(attr));
+    return listOfAttributes.map((attr) => this.camelifyObject(attr)).map((attr) => new SystemObject(attr));
   }
 }
 

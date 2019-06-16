@@ -14,7 +14,6 @@ describe('SystemsController Test', () => {
     let system1, system2, system3;
 
     beforeEach(async () => {
-      console.log("Starting spec");
       system1 = systemFactory.createSystem();
       system2 = systemFactory.createSystem();
       system3 = systemFactory.createSystem();

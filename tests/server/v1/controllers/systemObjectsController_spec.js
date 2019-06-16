@@ -22,8 +22,8 @@ describe('SystemObjectsController Test', () => {
       await systemRepository.save(system);
       await systemRepository.save(system2);
 
-      systemObject1 = systemObjectFactory.createSystemObject({system: system});
-      systemObject2 = systemObjectFactory.createSystemObject({system: system});
+      systemObject1 = systemObjectFactory.createSystemObject({system: system, radiansFromSystemGate: 0.0});
+      systemObject2 = systemObjectFactory.createSystemObject({system: system, radiansFromSystemGate: 1.0});
 
       await systemObjectRepository.save(systemObject1);
       await systemObjectRepository.save(systemObject2);

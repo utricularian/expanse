@@ -35,6 +35,18 @@ yarn db:seed
 yarn run dev
 ```
 
+## Connecting to Database (Staging)
+
+```
+docker exec -it expanse-db psql -U expanseadmin_staging expansedb_staging
+```
+
+## Connecting to Database (Test)
+
+```
+psql -h localhost -U expanseadmin_test expansedb_test --password
+```
+
 
 ## Additional Available Scripts
 

@@ -15,10 +15,10 @@ class SystemObjectFactory {
     const rand = Math.floor(Math.random() * 100000);
     return new SystemObject({
       name: options.name || `SystemObject ${rand}`,
-      type: 'rocky planet',
+      type: options.type || 'rocky planet',
       systemId: options.system.id,
-      distanceFromSystemCenter: rand,
-      radiansFromSystemGate: rand % 3
+      distanceFromSystemCenter: options.distanceFromSystemCenter === undefined ? rand : options.distanceFromSystemCenter,
+      radiansFromSystemGate: options.radiansFromSystemGate === undefined ? rand % 3 : options.radiansFromSystemGate
     });
   }
 }

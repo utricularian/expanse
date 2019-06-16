@@ -4,7 +4,7 @@ import System from "../../src/models/system";
 let _instance;
 
 class SystemRepository extends AbstractRepository {
-  _TABLE_NAME = '"systems"';
+  _TABLE_NAME = 'systems';
 
   constructor() {
     super();
