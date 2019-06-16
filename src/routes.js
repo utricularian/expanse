@@ -9,8 +9,7 @@ const Routes = [
   {
     path: '/',
     exact: true,
-    component: Home,
-    props: { name: "Alligator" }
+    component: Home
   },
   {
     path: '/posts',
