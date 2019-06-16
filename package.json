@@ -71,10 +71,12 @@
     "db:test:prepare": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test node-pg-migrate up",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "yarn run test:server && yarn run test:client",
+    "test": "yarn run test:server:ci && yarn run test:client:ci",
     "test:client": "CI=true yarn run test:client:watch",
+    "test:client:ci": "CI=true yarn run test:client:watch",
     "test:client:watch": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test node scripts/test.js",
     "test:server": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test NODE_ENV=development mochapack --webpack-config webpack.server.js --recursive tests/server",
+    "test:server:ci": "DATABASE_URL=postgres://expanseadmin_test:password@localhost:5432/expansedb_test NODE_ENV=development mochapack --webpack-config webpack.server.js --recursive tests/server --reporter dot",
     "test:server:watch": "yarn run test:server --watch"
   },
   "eslintConfig": {
@@ -116,18 +118,15 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
-      "server/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"
     ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/setup.js"
-    ],
+    "setupFilesAfterEnv": [],
     "testMatch": [
       "<rootDir>/src/**/*_spec.js",
-      "<rootDir>/tests/**/*_spec.js"
+      "<rootDir>/tests/src/**/*_spec.js"
     ],
     "testEnvironment": "jest-environment-jsdom-fourteen",
     "transform": {
