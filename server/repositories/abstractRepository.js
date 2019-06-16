@@ -1,26 +1,12 @@
 import databaseDriver from "../drivers/databaseDriver";
 
+import StringHelpers from "../helpers/stringHelpers";
+
 const UNIVERSAL_KEYS = ['id', 'createdAt'];
 
 class AbstractRepository {
-  snakeCase(camelCase) {
-    return camelCase.split(/(?=[A-Z])/).join('_').toLowerCase();
-  }
-
-  camelCase(snakeCase) {
-    return snakeCase.replace(/(_.)/g, (match) => match.toUpperCase()).replace(/_/g, '');
-  }
-
-  camelifyObject(object) {
-    const camelified = {};
-    Object.entries(object).forEach((entry) => {
-      camelified[this.camelCase(entry[0])] = entry[1];
-    });
-    return camelified;
-  }
-
   async _find(id, emptyEntity) {
-    const keyMarkers = Object.keys(emptyEntity).map(this.snakeCase);
+    const keyMarkers = Object.keys(emptyEntity).map(StringHelpers.snakeCase);
 
     const findSql = `
       SELECT ${keyMarkers.join(', ')}
@@ -28,11 +14,11 @@ class AbstractRepository {
       WHERE id = $1
     `.trim();
 
-    return this.camelifyObject(await databaseDriver.db().one(findSql, id));
+    return StringHelpers.camelifyObject(await databaseDriver.db().one(findSql, id));
   }
 
   async _findAll(emptyEntity) {
-    const keyMarkers = Object.keys(emptyEntity).map(this.snakeCase);
+    const keyMarkers = Object.keys(emptyEntity).map(StringHelpers.snakeCase);
 
     const findSql = `
       SELECT ${keyMarkers.join(', ')}
@@ -41,17 +27,17 @@ class AbstractRepository {
     `.trim();
 
 
-    return (await databaseDriver.db().any(findSql)).map((attr) => this.camelifyObject(attr));
+    return (await databaseDriver.db().any(findSql)).map((attr) => StringHelpers.camelifyObject(attr));
   }
 
   async _save(entity, emptyEntity) {
     const keys = [];
     const values = [];
 
-    const entityKeys = Object.keys(emptyEntity).filter((el) => !UNIVERSAL_KEYS.includes(el)).map(this.snakeCase);
+    const entityKeys = Object.keys(emptyEntity).filter((el) => !UNIVERSAL_KEYS.includes(el)).map(StringHelpers.snakeCase);
 
     Object.entries(entity).forEach((tuple) => {
-      const incomingKey = this.snakeCase(tuple[0]);
+      const incomingKey = StringHelpers.snakeCase(tuple[0]);
       if (entityKeys.includes(incomingKey)) {
         keys.push(incomingKey);
         values.push(tuple[1]);

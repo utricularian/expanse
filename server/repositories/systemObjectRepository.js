@@ -1,6 +1,7 @@
 import AbstractRepository from "./abstractRepository";
 import SystemObject from "../../src/models/systemObject";
 import databaseDriver from "../drivers/databaseDriver";
+import StringHelpers from "../helpers/stringHelpers";
 
 let _instance;
 
@@ -21,7 +22,7 @@ class SystemObjectRepository extends AbstractRepository {
   }
 
   async findAllBySystemId(systemId) {
-    const keyMarkers = Object.keys(new SystemObject({})).map(this.snakeCase);
+    const keyMarkers = Object.keys(new SystemObject({})).map(StringHelpers.snakeCase);
 
     const findSql = `
       SELECT ${keyMarkers.join(', ')}
@@ -31,7 +32,7 @@ class SystemObjectRepository extends AbstractRepository {
     `.trim();
 
     const listOfAttributes = await databaseDriver.db().any(findSql, systemId);
-    return listOfAttributes.map((attr) => this.camelifyObject(attr)).map((attr) => new SystemObject(attr));
+    return listOfAttributes.map((attr) => StringHelpers.camelifyObject(attr)).map((attr) => new SystemObject(attr));
   }
 }
 
