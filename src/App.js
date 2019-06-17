@@ -6,6 +6,9 @@ import SystemObjectsStore from "./stores/SystemObjectsStore";
 import Home from "./Home";
 import ApiRequest from "./helpers/ApiRequest";
 
+import styles from './App.module.scss';
+import './index.css';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +25,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.App}>
         <Route exact path="/" render={this.renderHome}/>
       </div>
     );
