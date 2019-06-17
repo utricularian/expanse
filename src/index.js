@@ -4,10 +4,10 @@ import {BrowserRouter} from "react-router-dom";
 
 import App from './App';
 
-ReactDOM.hydrate(
+const renderMethod = !!module.hot ? ReactDOM.render : ReactDOM.hydrate;
+renderMethod(
   <BrowserRouter>
     <App />
   </BrowserRouter>,
   document.getElementById('root')
 );
-

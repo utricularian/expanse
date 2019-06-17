@@ -8,10 +8,6 @@ export default class GlobalStats extends React.Component {
   }
 
   async componentDidMount() {
-    if (!this.props.systemsStore) {
-      console.trace();
-      throw {error: "Wut"};
-    }
     const systems = await this.props.systemsStore.findAll();
     this.setState({numSystems: systems.length});
   }
@@ -19,7 +15,7 @@ export default class GlobalStats extends React.Component {
   render() {
     return <div>
       <h1>Global Stats</h1>
-      <a onClick={this.props.closeCallback}>Close</a>
+      <a href='#' onClick={this.props.closeCallback}>Close</a>
       <div>Number of Systems: {this.state.numSystems}</div>
     </div>
   }

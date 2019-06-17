@@ -5,7 +5,7 @@ export default class ApiRequest {
     params = params || {};
 
     const options = {
-      url: `http://localhost:3006${path}`,
+      url: `http://localhost:3000${path}`,
       method: params.method || 'GET',
       headers: {
         'Content-Type': 'application/json'
