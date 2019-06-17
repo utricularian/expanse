@@ -4,13 +4,13 @@ import * as TestUtils from 'react-dom/test-utils';
 
 import Home from "../../src/Home";
 
+import MockSystemsStore from './mocks/stores/MockSystemsStore';
+
 describe("Home", () => {
   let home, homeNode, systemsStore, systemObjectsStore, loginCallback;
 
   beforeEach(() => {
-    systemsStore = jest.fn().mockImplementation(() => {
-      return {};
-    });
+    systemsStore = new MockSystemsStore();
     systemObjectsStore = jest.fn().mockImplementation(() => {
       return {};
     });

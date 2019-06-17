@@ -17,7 +17,7 @@ const api = new Api();
 
 app.use(express.static('./build'));
 
-app.use('/api', api.createRouter());
+app.use('/api/v1', api.createRouter());
 
 app.get('/api/*', (req, res) => {
   res.status(404).send(`path, ${req.url}, not found`);
@@ -26,7 +26,7 @@ app.get('/api/*', (req, res) => {
 
 app.get('/*', (req, res) => {
   const currentRoute = Routes.find(route => matchPath(req.url, route)) || {};
-  console.log("Wrong place?");
+  console.log("Wrong place?", req.url);
   let promise;
 
   if (currentRoute.loadData) {

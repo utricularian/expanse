@@ -12,12 +12,15 @@ class SystemFactory {
     return _instance;
   }
 
-  createSystem() {
+  createSystem(props) {
     const rand = Math.floor(Math.random() * 100000);
+    props = props || {};
     return new System({
+      id: props.id ? props.id : undefined,
       name: `System ${rand}`,
       distanceFromGalacticCore: rand,
-      radiansAroundGalacticCore: rand % 3
+      radiansAroundGalacticCore: rand % 3,
+      createdAt: props.createdAt ? props.createdAt : undefined
     });
   }
 }

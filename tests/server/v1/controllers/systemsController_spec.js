@@ -24,14 +24,14 @@ describe('SystemsController Test', () => {
     });
 
     it('should reject when content-type is not json', async () => {
-      const response = await request(app).get('/api/systems');
+      const response = await request(app).get('/api/v1/systems');
       expect(response.status).to.eql(415);
       expect(response.text).to.eql('Content-Type must be "application/json"');
     });
 
     it('should return all system objects', async () => {
       const response = await request(app)
-        .get('/api/systems')
+        .get('/api/v1/systems')
         .set('Content-Type', 'application/json');
       expect(response.status).to.eql(200);
       expect(response.text).not.to.eql("");

@@ -32,14 +32,14 @@ describe('SystemObjectsController Test', () => {
     });
 
     it('should reject when content-type is not json', async () => {
-      const response = await request(app).get(`/api/systems/${system.id}/system_objects`);
+      const response = await request(app).get(`/api/v1/systems/${system.id}/system_objects`);
       expect(response.status).to.equal(415);
       expect(response.text).to.eql('Content-Type must be "application/json"');
     });
 
     it('it should return only system objects for the given system', async () => {
       const response = await request(app)
-        .get(`/api/systems/${system.id}/system_objects`)
+        .get(`/api/v1/systems/${system.id}/system_objects`)
         .set('Content-Type', 'application/json');
       expect(response.status).to.equal(200);
       expect(response.text).not.to.be.undefined;

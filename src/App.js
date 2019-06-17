@@ -1,31 +1,29 @@
 import React from 'react';
-import { renderRoutes } from 'react-router-config';
-import { Switch, NavLink } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import Routes from './routes';
-
-import styles from './App.module.scss';
+import SystemsStore from "./stores/SystemsStore";
+import SystemObjectsStore from "./stores/SystemObjectsStore";
+import Home from "./Home";
+import ApiRequest from "./helpers/ApiRequest";
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.systemsStore = this.props.systemsStore || new SystemsStore({apiRequest: new ApiRequest()});
+    this.systemObjectsStore = this.props.systemObjectsStore || new SystemObjectsStore();
+
+    this.renderHome = this.renderHome.bind(this);
+  }
+
+  renderHome() {
+    return <Home systemsStore={this.systemsStore}/>
+  }
 
   render() {
     return (
       <div>
-        <ul className={styles.Nav}>
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/todos">Todos</NavLink>
-          </li>
-          <li>
-            <NavLink to="/posts">Posts</NavLink>
-          </li>
-        </ul>
-
-        <Switch>
-          {renderRoutes(Routes, {name: "alligator"})}
-        </Switch>
+        <Route exact path="/" render={this.renderHome}/>
       </div>
     );
   };
