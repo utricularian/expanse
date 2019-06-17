@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import SystemsStore from "./stores/SystemsStore";
-import SystemObjectsStore from "./stores/SystemObjectsStore";
-import Home from "./Home";
-import ApiRequest from "./helpers/ApiRequest";
+import SystemsStore from "../stores/SystemsStore";
+import SystemObjectsStore from "../stores/SystemObjectsStore";
+import Home from "../Home";
+import ApiRequest from "../helpers/ApiRequest";
 
 import styles from './App.module.scss';
-import './index.css';
+import '../index.css';
 
 export default class App extends React.Component {
   constructor(props) {

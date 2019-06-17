@@ -1,6 +1,6 @@
 import React from 'react';
-import GlobalStats from "./GlobalStats";
-import Input from "./Input";
+import GlobalStats from "./GlobalStats/GlobalStats";
+import Input from "./Widgets/Input/Input";
 
 export default class Home extends React.Component {
   constructor(props) {

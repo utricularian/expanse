@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import * as TestUtils from 'react-dom/test-utils';
 
-import GlobalStats from "../../src/GlobalStats";
-import MockSystemsStore from './mocks/stores/MockSystemsStore';
+import GlobalStats from "../../../src/GlobalStats/GlobalStats";
+import MockSystemsStore from '../mocks/stores/MockSystemsStore';
 
-import systemFactory from '../factories/entities/systemFactory';
+import systemFactory from '../../factories/entities/systemFactory';
 
 describe("GlobalStats", () => {
   let system1, system2;

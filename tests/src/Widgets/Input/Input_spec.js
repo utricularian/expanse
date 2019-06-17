@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as TestUtils from 'react-dom/test-utils';
 
-import Input from '../../src/Input';
+import Input from '../../../../src/Widgets/Input/Input';
 
 // <Input label={"Username:"} value={this.state.username} changeCallback={this.handleUsernameChange} />
 

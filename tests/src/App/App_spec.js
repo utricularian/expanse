@@ -2,8 +2,8 @@ import React from 'react';
 import * as TestUtils from 'react-dom/test-utils';
 import {MemoryRouter} from "react-router-dom";
 
-import App from '../../src/App';
-import MockSystemsStore from './mocks/stores/MockSystemsStore';
+import App from '../../../src/App/App';
+import MockSystemsStore from '../mocks/stores/MockSystemsStore';
 
 describe("App", () => {
   it('renders without crashing', () => {
